@@ -1,0 +1,29 @@
+---
+title: "Oyster Populations in Chesapeake Bay"
+author: "tracking_oystRs"
+date: "2023-12-05"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(lme4)
+library(ggmap)
+library(usmap)
+```
+
+# Introduction
+Oysters have been a staple of the Chesapeake Bay region
+
+```{r regional map, echo=F, message=F,fig.dim=c(4,2),fig.cap="The Chesapeake Bay region"}
+plot_usmap(include=c("DE","NJ","MD","VA","PA"))
+```
+
+# Methods
+
+# Results
+
+# Discussion
+
+# Author Contributions
