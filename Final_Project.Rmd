@@ -30,7 +30,8 @@ plot_usmap(include=c("DE","NJ","MD","VA","PA"))
 ```
 
 ```{r oyster data, echo=F, message=F}
-
+dat <- read_csv("oyster_data.csv")
+#will need to mutate the table to have just the harvesting data and NOT the predicted model data
 ```
 
 ```{r joining the data, echo=F, message=F}
@@ -44,3 +45,8 @@ plot_usmap(include=c("DE","NJ","MD","VA","PA"))
 # Discussion
 
 # Author Contributions
+Audrey:
+Conor:
+Jessica:
+Letacianna:
+Susanne:
