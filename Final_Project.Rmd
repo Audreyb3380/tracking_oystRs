@@ -21,7 +21,24 @@ plot_usmap(include=c("DE","NJ","MD","VA","PA"))
 ```
 
 # Methods
+```{r ocean temperature, echo=F, message=F}
 
+```
+
+```{r pH data, echo=F, message=F}
+
+```
+
+```{r oyster data, echo=F, message=F}
+
+```
+
+```{r joining the data, echo=F, message=F}
+
+```
+
+```{r plotting joined data, echo=F, message=F}
+```
 # Results
 
 # Discussion
