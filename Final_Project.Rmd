@@ -14,7 +14,11 @@ library(usmap)
 ```
 
 # Introduction
+Info to include:
 Oysters have been a staple of the Chesapeake Bay region
+Eastern oyster species
+Choptank river location
+Significance of oysters = cultural, economic, ecological
 
 ```{r regional map, echo=F, message=F,fig.dim=c(4,2),fig.cap="The Chesapeake Bay region"}
 plot_usmap(include=c("DE","NJ","MD","VA","PA"))
@@ -22,16 +26,19 @@ plot_usmap(include=c("DE","NJ","MD","VA","PA"))
 
 # Methods
 ```{r ocean temperature, echo=F, message=F}
-
+temp_data <- read_csv("water_temp_data.csv")
 ```
 
 ```{r pH data, echo=F, message=F}
+ph_data <- read_csv("ph_data.csv")
+```
 
+```{r salinity data, echo=F, message=F}
+sal_data <- read_csv("salinity_data.csv")
 ```
 
 ```{r oyster data, echo=F, message=F}
 dat <- read_csv("oyster_data.csv")
-#will need to mutate the table to have just the harvesting data and NOT the predicted model data
 ```
 
 ```{r joining the data, echo=F, message=F}
@@ -54,9 +61,12 @@ Susanne:
 Notes:
 calculate temperature anomaly (mean temperature by day)
   Water quality crisis per year from a mean or standard
-Add nitrogen or chlorophyl (use interactions for things that correlate)
+Add nitrogen or chlorophyll (use interactions for things that correlate)
 Response variables: which few you want to predict
   Mortality
   
 Visualization - response variable over time
 Delegate tasks
+
+Planning:
+What factor do we want to look at: young oysters, sexually mature oysters, or market ready oysters
