@@ -50,3 +50,9 @@ Conor:
 Jessica:
 Letacianna:
 Susanne:
+
+Notes:
+calculate temperature anomaly (mean temperature by day)
+Add nitrogen or chlorophyl (use interactions for things that correlate)
+Response variables: which few you want to predict
+  Mortality
