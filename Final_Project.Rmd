@@ -53,6 +53,10 @@ Susanne:
 
 Notes:
 calculate temperature anomaly (mean temperature by day)
+  Water quality crisis per year from a mean or standard
 Add nitrogen or chlorophyl (use interactions for things that correlate)
 Response variables: which few you want to predict
   Mortality
+  
+Visualization - response variable over time
+Delegate tasks
