@@ -11,6 +11,8 @@ library(tidyverse)
 library(lme4)
 library(ggmap)
 library(usmap)
+library(ggplot2)
+library(gridExtra)
 ```
 
 # Introduction
@@ -41,21 +43,38 @@ sal_data <- read_csv("salinity_data.csv")
 dat <- read_csv("oyster_data.csv")
 ```
 
-```{r joining the data, echo=F, message=F}
+```{r joining the data, echo=F, message=F,fig.cap="Average salinity, average pH, average water temperature, and temperature divergence from the average plotted against year"}
+environ <- merge(x=sal_data,y=ph_data,by="Year",all.x=TRUE)%>%
+  left_join(temp_data,by="Year")
 
+plot1 <- ggplot(environ,aes(x=Year,y=salinity_Average))+geom_point()
+plot2 <- ggplot(environ,aes(x=Year,y=ph_Average))+geom_point()
+plot3 <- ggplot(environ,aes(x=Year,y=water_temp_Average))+geom_point()
+plot4 <- ggplot(environ,aes(x=Year,y=water_temp_Divergence))+geom_point()
+
+grid.arrange(plot1,plot2,plot3,plot4)
 ```
 
 ```{r plotting joined data, echo=F, message=F}
+
 ```
+
+Visualize each variable against oyster numbers
+Linear mixed modeling to find best model
+
 # Results
 
 # Discussion
 
 # Author Contributions
 Audrey:
+
 Conor:
+
 Jessica:
+
 Letacianna:
+
 Susanne:
 
 Notes:
