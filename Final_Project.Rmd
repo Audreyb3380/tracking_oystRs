@@ -3,6 +3,7 @@ title: "Oyster Populations in Chesapeake Bay"
 author: "tracking_oystRs"
 date: "2023-12-05"
 output: html_document
+bibliography: BIOL3140.bib
 ---
 
 ```{r setup, include=FALSE}
