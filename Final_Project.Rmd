@@ -40,7 +40,8 @@ sal_data <- read_csv("salinity_data.csv")
 ```
 
 ```{r oyster data, echo=F, message=F}
-dat <- read_csv("oyster_data.csv")
+oys_data <- read_csv("oyster_data.csv")
+ggplot(oys_data,aes(x=Year,y=oyster_units))+geom_point()
 ```
 
 ```{r joining the data, echo=F, message=F,fig.cap="Average salinity, average pH, average water temperature, and temperature divergence from the average plotted against year"}
@@ -53,10 +54,17 @@ plot3 <- ggplot(environ,aes(x=Year,y=water_temp_Average))+geom_point()
 plot4 <- ggplot(environ,aes(x=Year,y=water_temp_Divergence))+geom_point()
 
 grid.arrange(plot1,plot2,plot3,plot4)
+
+dat <- environ %>%
+  left_join(oys_data,by="Year")
+
+colnames(dat)[6] <- "oyster_units"
+dat <- dat[-c(7)] #removing unnecessary column of repeated data
+
 ```
 
 ```{r plotting joined data, echo=F, message=F}
-
+ggplot(dat, aes(x=Year))+geom_point(y=dat$oyster_units)
 ```
 
 Visualize each variable against oyster numbers
