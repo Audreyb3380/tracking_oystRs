@@ -22,6 +22,9 @@ Eastern oyster species
 Choptank river location
 Significance of oysters = cultural, economic, ecological
 
+# The Cultural Significance of Oysters
+Oysters have long played a crucial role in the cultural history of the Chesapeake Bay. According to a cultural model assessment conducted by Paolisso and Dery [@paolisso2010cultural], the restoration of oyster populations in the region is a topic of significant importance. The study explores various oyster restoration alternatives and provides insights into the cultural perspectives surrounding these efforts.  The cultural significance of oysters in the Chesapeake Bay extends beyond their ecological impact. Paolisso and Dery [@paolisso2010cultural] discuss how different restoration approaches are perceived within the local communities. Oysters are not merely a commodity; they are deeply embedded in the cultural fabric, shaping traditions and community practices. Understanding the cultural dimensions of oyster restoration is essential for developing sustainable and community-supported initiatives in the Chesapeake Bay region.
+
 ```{r regional map, echo=F, message=F,fig.dim=c(4,2),fig.cap="The Chesapeake Bay region"}
 plot_usmap(include=c("DE","NJ","MD","VA","PA"))
 ```
