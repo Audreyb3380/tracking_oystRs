@@ -22,6 +22,8 @@ library(kableExtra)
 ```
 
 # Introduction
+Chesapeake Bay oysters face considerable challenges due to climate change and environmental variables like pH, salinity, water temperature, and nitrogen. The Bay, highly vulnerable to climate change, experiences rising seas, ocean acidification, warming water temperatures, and prolonged extreme weather, disrupting water quality, habitat, and wildlife.  Oyster shell growth requires a sustained deposition of calcium carbonate, however, this is less available in acidic conditions leading to low calcification rates.  Daily fluctuations in salinity have also been harmful to these oysters.  They rely on freshwater input to survive, and parasites that infect oysters prosper in both high-salinity and warm environments. Too high or low salinity levels also lead to a decrease in immunity.  Additionally, higher temperatures have led to waters being unable to hold as much dissolved oxygen (hypoxia).  This condition has led to severe oyster mortality, reproductive failure, and high susceptibility to parasites and disease.  These daily fluctuations of oxygen and acid have been intensified through the introduction of nitrogen and carbon dioxide from polluted air and runoff. 
+
 Info to include:
 Oysters have been a staple of the Chesapeake Bay region
 Eastern oyster species
