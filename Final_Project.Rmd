@@ -44,10 +44,17 @@ sal_data <- read_csv("salinity_data.csv")
 ```
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 ```{r oyster data, echo=F, message=F}
 =======
 ```{r oyster data, echo=F, message=F,fig.cap="Sum of oyster units between 1989 and 2015 from six locations along the Chesapeake Choptank River"}
 >>>>>>> e0c5c3d (fixed the data finally)
+=======
+```{r oyster data, echo=F, message=F,fig.cap="Sum of oyster units between 1989 and 2015 from six locations along the Chesapeake Choptank River"}
+=======
+```{r oyster data, echo=F, message=F}
+>>>>>>> a361acb0f276dc781aaac1ba02826aa68c5ef592
+>>>>>>> 32a3112 (fixing issues)
 oys_data <- read_csv("oyster_data.csv")
 ggplot(oys_data,aes(x=Year,y=oyster_units))+geom_point()
 ```
