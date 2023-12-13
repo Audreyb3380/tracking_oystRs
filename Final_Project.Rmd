@@ -24,16 +24,17 @@ library(kableExtra)
 # Introduction
 Chesapeake Bay oysters face considerable challenges due to climate change and environmental variables like pH, salinity, water temperature, and nitrogen. The Bay, highly vulnerable to climate change, experiences rising seas, ocean acidification, warming water temperatures, and prolonged extreme weather, disrupting water quality, habitat, and wildlife.  Oyster shell growth requires a sustained deposition of calcium carbonate, however, this is less available in acidic conditions leading to low calcification rates.  Daily fluctuations in salinity have also been harmful to these oysters.  They rely on freshwater input to survive, and parasites that infect oysters prosper in both high-salinity and warm environments. Too high or low salinity levels also lead to a decrease in immunity.  Additionally, higher temperatures have led to waters being unable to hold as much dissolved oxygen (hypoxia).  This condition has led to severe oyster mortality, reproductive failure, and high susceptibility to parasites and disease.  These daily fluctuations of oxygen and acid have been intensified through the introduction of nitrogen and carbon dioxide from polluted air and runoff. 
 
+
+# The Cultural Significance of Oysters
+Oysters have long played a crucial role in the cultural history of the Chesapeake Bay. According to a cultural model assessment conducted by Paolisso and Dery [@paolisso2010cultural], the restoration of oyster populations in the region is a topic of significant importance. The study explores various oyster restoration alternatives and provides insights into the cultural perspectives surrounding these efforts.  The cultural significance of oysters in the Chesapeake Bay extends beyond their ecological impact. Paolisso and Dery [@paolisso2010cultural] discuss how different restoration approaches are perceived within the local communities. Oysters are not merely a commodity; they are deeply embedded in the cultural fabric, shaping traditions and community practices. Understanding the cultural dimensions of oyster restoration is essential for developing sustainable and community-supported initiatives in the Chesapeake Bay region.
+
 Info to include:
 Oysters have been a staple of the Chesapeake Bay region
 Eastern oyster species
 Choptank river location
 Significance of oysters = cultural, economic, ecological
 
-# The Cultural Significance of Oysters
-Oysters have long played a crucial role in the cultural history of the Chesapeake Bay. According to a cultural model assessment conducted by Paolisso and Dery [@paolisso2010cultural], the restoration of oyster populations in the region is a topic of significant importance. The study explores various oyster restoration alternatives and provides insights into the cultural perspectives surrounding these efforts.  The cultural significance of oysters in the Chesapeake Bay extends beyond their ecological impact. Paolisso and Dery [@paolisso2010cultural] discuss how different restoration approaches are perceived within the local communities. Oysters are not merely a commodity; they are deeply embedded in the cultural fabric, shaping traditions and community practices. Understanding the cultural dimensions of oyster restoration is essential for developing sustainable and community-supported initiatives in the Chesapeake Bay region.
-
-```{r regional map, echo=F, message=F,fig.dim=c(4,2),fig.cap="The Chesapeake Bay region"}
+```{r regional map, echo=F, message=F,fig.dim=c(4,2),fig.cap="The Chesapeake Bay Region"}
 plot_usmap(include=c("DE","NJ","MD","VA","PA"))
 ```
 
@@ -50,10 +51,15 @@ ph_data <- read_csv("ph_data.csv")
 sal_data <- read_csv("salinity_data.csv")
 ```
 
+The data collected along the Choptank River varies depending on the location, but a few trends in oyster population across all locations can clearly be seen.
 
-```{r oyster data, echo=F, message=F,fig.cap="Sum of oyster units between 1989 and 2015 from six locations along the Chesapeake Choptank River"}
+```{r oyster data, echo=F, message=F,fig.cap="Observed oyster units between 1989 and 2015 from six locations along the Chesapeake Choptank River"}
 oys_data <- read_csv("oyster_data.csv")
 ggplot(oys_data,aes(x=Year,y=oyster_units,color = oys_data$location_name))+geom_point()
+```
+```{r by year oysters, echo=F, message=F}
+by_year_oys <- read_csv("oys_sums_years.csv") 
+ggplot(by_year_oys, aes(x=Year,y=sum_oyster_units))+geom_point()
 ```
 
 ```{r joining the data, echo=F, message=F,fig.cap="Average salinity, average pH, average water temperature, and temperature divergence from the average plotted against year"}
