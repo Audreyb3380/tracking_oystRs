@@ -50,7 +50,7 @@ The data collected along the Choptank River varies depending on the location, bu
 
 ```{r oyster data, echo=F, message=F,fig.cap="Observed oyster units between 1989 and 2015 from six locations along the Chesapeake Choptank River"}
 oys_data <- read_csv("oyster_data.csv")
-ggplot(oys_data,aes(x=Year,y=oyster_units,color = oys_data$location_name))+geom_point()
+ggplot(oys_data,aes(x=Year,y=oyster_units,color = location_name))+geom_point()
 ```
 ```{r by year oysters, echo=F, message=F}
 by_year_oys <- read_csv("oys_sums_years.csv") 
@@ -102,8 +102,6 @@ nit.lm <- lm(nitrogen_Average~sum_oyster_units,dat,na.action="na.fail")
 anova(nit.lm)
 ```
 
-Visualize each variable against oyster numbers
-Linear mixed modeling to find best model
 
 # Results
 
