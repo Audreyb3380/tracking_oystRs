@@ -39,6 +39,8 @@ plot_usmap(include=c("DE","NJ","MD","VA","PA"))
 ```
 
 # Methods
+
+# Results
 ```{r environment data, echo=F, message=F}
 temp_data <- read_csv("water_temp_data.csv")
 ph_data <- read_csv("ph_data.csv")
@@ -102,8 +104,6 @@ nit.lm <- lm(nitrogen_Average~sum_oyster_units,dat,na.action="na.fail")
 anova(nit.lm)
 ```
 
-
-# Results
 
 # Discussion
 
