@@ -102,8 +102,6 @@ nit.lm <- lm(nitrogen_Average~sum_oyster_units,dat,na.action="na.fail")
 anova(nit.lm)
 ```
 
-Visualize each variable against oyster numbers
-Linear mixed modeling to find best model
 
 # Results
 
