@@ -67,12 +67,11 @@ environ <- merge(x=sal_data,y=ph_data,by="Year",all.x=TRUE)%>%
   left_join(temp_data,by="Year")
 
 dat <- environ %>%
-  left_join(oys_data,by="Year")
-
-
+  left_join(by_year_oys,by="Year")
 
 ```
 
+To make a prediction about the impact of each environmental factor, the average salinity, pH, water temperature, and divergence in water temperature from the average are plotted individually from 1989 to 2015. This yearly range was selected to align with the years with available oyster data.
 ```{r plotting joined data, echo=F, message=F}
 
 plot1 <- ggplot(environ,aes(x=Year,y=salinity_Average))+geom_point()
@@ -84,19 +83,18 @@ grid.arrange(plot1,plot2,plot3,plot4)
 ```
 
 ```{r modeling, echo=F, message=F}
-dat.lmer <- lmer(oyster_units~salinity_Average*ph_Average*water_temp_Average*water_temp_Divergence+(1|location_name),dat,na.action="na.fail")
+dat.lm <- lm(sum_oyster_units~salinity_Average*ph_Average*water_temp_Average*water_temp_Divergence,dat,na.action="na.fail")
 
-dat.aic <- dredge(dat.lmer)
+dat.aic <- dredge(dat.lm)
 
-dat.kb <- kable(dat.aic[1:4,],caption = "Fit values for nested models of the most complicated lme model")
+dat.kb <- kable(dat.aic[1:4,],caption = "Fit values for nested models of the most complicated lm model")
 kable_styling(dat.kb)
 
-Anova(dat.lmer)
+best.dat.lm <- lm(sum_oyster_units~water_temp_Divergence,dat,na.action="na.fail")
+best.dat.aic <- anova(best.dat.lm)
+best.dat.kb <- kable(best.dat.aic[1:4],caption="Statistical test for best model, as determined by `dredge()`")
+kable_styling(best.dat.kb)
 
-#dat.lm.ph <-lm(oyster_units~ph_Average,dat) 
-#dat.lm.sal <- lm(oyster_units~salinity_Average,dat)
-#dat.lm.temp <- lm(oyster_units~water_temp_Average,dat)
-#dat.lm.div <- lm(oyster_units~water_temp_Divergence,dat)
 ```
 
 Visualize each variable against oyster numbers
