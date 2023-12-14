@@ -145,3 +145,5 @@ Delegate tasks
 
 Planning:
 What factor do we want to look at: young oysters, sexually mature oysters, or market ready oysters
+
+# Bibliography

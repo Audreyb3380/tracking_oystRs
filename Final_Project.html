@@ -1029,6 +1029,13 @@ NaN
 </ul></li>
 </ul></li>
 </ul>
+<p>The table above ranks the nested models based on how well they fit
+the data, with the best-fitting model at the top. Based on this
+analysis, the best-fitting model to explain oyster population numbers
+only contains the divergence in average temperature from the average
+yearly temperature over this twenty-six-year period. To see if this
+relationship is statistically significant, an <code>anova()</code> test
+can be performed.</p>
 <pre><code>## Warning in anova.lm(best.dat.lm): ANOVA F-tests on an essentially perfect fit
 ## are unreliable</code></pre>
 <table class="table" style="margin-left: auto; margin-right: auto;">
@@ -1090,6 +1097,10 @@ NA
 </tr>
 </tbody>
 </table>
+<p>Unfortunately, the <code>anova()</code> test of significance is
+inconclusive, as shown by the <strong>NaN</strong>. This is because
+there is one observation per divergence value, meaning that there are no
+residuals.</p>
 <p>To answer the second question, average total nitrogen and total
 oyster units per year were compared in individual plots to first see if
 any patterns emerge at first glance.</p>
