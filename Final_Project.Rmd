@@ -122,6 +122,8 @@ The `Anova()` test of the `nit.lm` model reveals a p-value of 0.252696, which ab
 
 # Discussion
 
+Based on the `dredge()` nested model analysis, the best-fitting model was determined to only contain the divergence in average temperature from the twenty-six-year average, or `lm(sum_oyster_units~water_temp_Divergence)`. This suggests that higher yearly variation from an average  temperature, which means more temperature anomalies during the year, can impact the ability of the oysters to survive to maturity. This can include "colder colds" and "hotter hots", as either anomaly represents a change from the best conditions for oysters. This has important implications regarding climate change, as more erratic weather patterns encompassing both extremes are becoming more common as the climate of Earth changes.
+
 # Author Contributions
 Audrey:
 
