@@ -47,6 +47,14 @@ The goal of this analysis is to determine which varying environmental factors ar
 
 # Methods
 
+Data regarding oyster population was collected from the Choptank River, a Maryland tributary and the largest river in the Delmarva Peninsula. The data was accessed from the Biological & Chemical Oceanography Data Management Office, and was narrowed down to focus on market-sized sexually mature oysters. The data was reverted from a log-scale format to values capable of summation in Excel.
+
+The environmental data was accessed from the Maryland Department of Natural Resources, specifically their long-term fixed station monthly monitoring database. This data was collected at three Choptank River stations to match the oyster population data, and the yearly averages for each type of data were determined using Excel.
+
+A linear model predicting oyster population was developed using interactions between average pH, salinity, water temperature, and divergence in water temperature, creating the most complex model that could be analyzed with `dredge()` to find the best model.
+
+To determine if there is a statistically significant relationship between oyster population and nitrogen content in the water, another linear model was developed and analyzed using `Anova()`.
+
 # Results
 ```{r environment data, echo=F, message=F}
 temp_data <- read_csv("water_temp_data.csv")
@@ -61,10 +69,15 @@ The data collected along the Choptank River varies depending on the location, bu
 oys_data <- read_csv("oyster_data.csv")
 ggplot(oys_data,aes(x=Year,y=oyster_units,color = location_name))+geom_point()
 ```
+
+To get a better sense of these trends, the sum across all locations was calculated per year and graphed below.
+
 ```{r by year oysters, echo=F, message=F}
 by_year_oys <- read_csv("oys_sums_years.csv") 
 ggplot(by_year_oys, aes(x=Year,y=sum_oyster_units))+geom_point()
 ```
+
+The graph highlights a decline in population from 1990 to 1994, as well as the steepest decline from 2001 to 2004. As of 2010, the population had begun to increase rapidly, but the cut-off of 2015 prevents seeing the continuation of this trend.
 
 ```{r joining the data, echo=F, message=F,fig.cap="Average salinity, average pH, average water temperature, and temperature divergence from the average plotted against year"}
 environ <- merge(x=sal_data,y=ph_data,by="Year",all.x=TRUE)%>%
@@ -76,6 +89,7 @@ dat <- environ %>%
 ```
 
 To make a prediction about the impact of each environmental factor, the average salinity, pH, nitrogen, water temperature, and divergence in water temperature from the average are plotted individually from 1989 to 2015. This yearly range was selected to align with the years with available oyster data.
+
 ```{r plotting joined data, echo=F, message=F}
 
 plot1 <- ggplot(environ,aes(x=Year,y=salinity_Average))+geom_point()
@@ -85,6 +99,7 @@ plot4 <- ggplot(environ,aes(x=Year,y=water_temp_Divergence))+geom_point()
 
 grid.arrange(plot1,plot2,plot3,plot4)
 ```
+
 To determine which of these environmental factors influence oyster population values, the most complicated linear model is run through the `dregde()` function to determine the best-fitting nested models within that complex model.
 
 ```{r modeling with dredge, echo=F, message=F}
@@ -132,7 +147,7 @@ The `Anova()` test of the `nit.lm` model reveals a p-value of 0.252696, which ab
 
 Based on the `dredge()` nested model analysis, the best-fitting model was determined to only contain the divergence in average temperature from the twenty-six-year average, or `lm(sum_oyster_units~water_temp_Divergence)`. This suggests that higher yearly variation from an average  temperature, which means more temperature anomalies during the year, can impact the ability of the oysters to survive to maturity. This can include "colder colds" and "hotter hots", as either anomaly represents a change from the best conditions for oysters. This has important implications regarding climate change, as more erratic weather patterns encompassing both extremes are becoming more common as the climate of Earth changes.
 
-As for the relationship between oyster populations and total nitrogen content of the water, the `Anova()` test revealed a p-value of 0.252696, a value above the 0.05 significance threshold. Therefore, about 20% of the nitrogen content data cannot be explained by the oyster population data, indicating that the relationship is not statistically significant and the oyster population is not a significant factor. 
+As for the relationship between oyster populations and total nitrogen content of the water, the `Anova()` test revealed a p-value of 0.252696, a value above the 0.05 significance threshold. Therefore, about 25% of the nitrogen content data cannot be explained by the oyster population data, indicating that the relationship is not statistically significant and the oyster population is not a significant factor. 
 
 ## Limitations
 
