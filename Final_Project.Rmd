@@ -77,16 +77,19 @@ plot5 <- ggplot(environ,aes(x=Year,y=water_temp_Divergence))+geom_point()
 
 grid.arrange(plot1,plot2,plot3,plot4,plot5)
 ```
+To determine which of these environmental factors influence oyster population values, the most complicated linear model is run through the `dregde()` function to determine the best-fitting nested models within that complex model.
 
-```{r modeling, echo=F, message=F}
+```{r modeling with dredge, echo=F, message=F}
 dat.lm <- lm(sum_oyster_units~salinity_Average*ph_Average*water_temp_Average*water_temp_Divergence,dat,na.action="na.fail")
 
 dat.aic <- dredge(dat.lm)
 
 dat.kb <- kable(dat.aic[1:4,],caption = "Fit values for nested models of the most complicated lm model")
 kable_styling(dat.kb)
+```
 
-best.dat.lm <- lm(sum_oyster_units~water_temp_Divergence,dat,na.action="na.fail")
+```{r best model, echo=F, message=F}
+best.dat.lm <- lm(sum_oyster_units~(water_temp_Divergence),dat,na.action="na.fail")
 best.dat.aic <- anova(best.dat.lm)
 best.dat.kb <- kable(best.dat.aic[1:4],caption="Statistical test for best model, as determined by `dredge()`")
 kable_styling(best.dat.kb)
@@ -105,11 +108,13 @@ Looking at the initial patterns of the graph, barring a handful of outliers, it 
 
 ```{r nitrogen model, echo=F, message=F}
 nit.lm <- lm(nitrogen_Average~sum_oyster_units,dat,na.action="na.fail")
-nit.aic <- anova(nit.lm)
-nit.kb <- kable(nit.aic[1:4],caption="Statistical test for model predicting nitrogen content based on oyster population")
+
+nit.an <- Anova(nit.lm)
+nit.kb <- kable(nit.an[1:4],caption="Statistical test for model predicting nitrogen content based on oyster population")
 kable_styling(nit.kb)
 ```
 
+The `Anova()` test of the `nit.lm` model reveals a p-value of 0.252696, which above the 0.05 value of significance.
 
 # Discussion
 
