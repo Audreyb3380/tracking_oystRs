@@ -80,11 +80,10 @@ To make a prediction about the impact of each environmental factor, the average 
 
 plot1 <- ggplot(environ,aes(x=Year,y=salinity_Average))+geom_point()
 plot2 <- ggplot(environ,aes(x=Year,y=ph_Average))+geom_point()
-plot3 <- ggplot(environ,aes(x=Year,y=nitrogen_Average))+geom_point()
-plot4 <- ggplot(environ,aes(x=Year,y=water_temp_Average))+geom_point()
-plot5 <- ggplot(environ,aes(x=Year,y=water_temp_Divergence))+geom_point()
+plot3 <- ggplot(environ,aes(x=Year,y=water_temp_Average))+geom_point()
+plot4 <- ggplot(environ,aes(x=Year,y=water_temp_Divergence))+geom_point()
 
-grid.arrange(plot1,plot2,plot3,plot4,plot5)
+grid.arrange(plot1,plot2,plot3,plot4)
 ```
 To determine which of these environmental factors influence oyster population values, the most complicated linear model is run through the `dregde()` function to determine the best-fitting nested models within that complex model.
 
@@ -154,17 +153,5 @@ Letacianna:
 
 Susanne:
 
-Notes:
-calculate temperature anomaly (mean temperature by day)
-  Water quality crisis per year from a mean or standard
-Add nitrogen or chlorophyll (use interactions for things that correlate)
-Response variables: which few you want to predict
-  Mortality
-  
-Visualization - response variable over time
-Delegate tasks
-
-Planning:
-What factor do we want to look at: young oysters, sexually mature oysters, or market ready oysters
 
 # Bibliography
