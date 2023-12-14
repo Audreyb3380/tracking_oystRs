@@ -24,11 +24,11 @@ library(kableExtra)
 # Introduction
 Eastern oysters (*Crassostrea virginica*) are a staple species of the Chesapeake Bay region, the area in the Mid-Atlantic United States separated by the Delmarva Peninsula (pictured below).
 
-```{r regional map, echo=F, message=F,fig.dim=c(4,2),fig.cap="The Chesapeake Bay Region"}
+```{r regional map, echo=F, message=F,fig.dim=c(4,2)}
 plot_usmap(include=c("DE","NJ","MD","VA","PA"))
 ```
 
-
+Oysters are a staple of aquatic regions such as this one, due to their cultural value, their contribution to the economy, and their role in environmental regulation.
 
 ## The Cultural Significance of Oysters
 Oysters have long played a crucial role in the cultural history of the Chesapeake Bay. According to a cultural model assessment conducted by Paolisso and Dery [@paolisso2010cultural], the restoration of oyster populations in the region is a topic of significant importance. The study explores various oyster restoration alternatives and provides insights into the cultural perspectives surrounding these efforts.  The cultural significance of oysters in the Chesapeake Bay extends beyond their ecological impact. Paolisso and Dery [@paolisso2010cultural] discuss how different restoration approaches are perceived within the local communities. Oysters are not merely a commodity; they are deeply embedded in the cultural fabric, shaping traditions and community practices. Understanding the cultural dimensions of oyster restoration is essential for developing sustainable and community-supported initiatives in the Chesapeake Bay region.
@@ -93,13 +93,21 @@ kable_styling(best.dat.kb)
 
 ```
 
-```{r nitrogen data, echo=F, message=F}
+To answer the second question, average total nitrogen and total oyster units per year were compared in individual plots to first see if any patterns emerge at first glance.
+
+```{r nitrogen plots, echo=F, message=F,fig.cap="Average nitrogen content and oyster population plotted between 1989 and 2015"}
 nitro.plot <- ggplot(dat,aes(x=Year,y=nitrogen_Average))+geom_point()
 oys.plot <- ggplot(dat,aes(x=Year,y=sum_oyster_units))+geom_point()
 grid.arrange(oys.plot,nitro.plot)
+```
 
+Looking at the initial patterns of the graph, barring a handful of outliers, it seems that the oyster population and the amount of nitrogen present in the water have an inverse relationship. Instances of this pattern can be seen between 1992 and 1994 and between 2003 and 2004, where some of the lowest oyster counts match with some of the highest nitrogen content. Now comes the big question: is this relationship statistically significant, or is this seemingly-related variance more likely due to chance?
+
+```{r nitrogen model, echo=F, message=F}
 nit.lm <- lm(nitrogen_Average~sum_oyster_units,dat,na.action="na.fail")
-anova(nit.lm)
+nit.aic <- anova(nit.lm)
+nit.kb <- kable(nit.aic[1:4],caption="Statistical test for model predicting nitrogen content based on oyster population")
+kable_styling(nit.kb)
 ```
 
 
