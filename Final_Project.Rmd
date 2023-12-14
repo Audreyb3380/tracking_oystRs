@@ -88,6 +88,8 @@ dat.kb <- kable(dat.aic[1:4,],caption = "Fit values for nested models of the mos
 kable_styling(dat.kb)
 ```
 
+The table above ranks the nested models based on how well they fit the data, with the best-fitting model at the top. Based on this analysis, the best-fitting model to explain oyster population numbers only contains the divergence in average temperature from the average yearly temperature over this twenty-six-year period. To see if this relationship is statistically significant, an `anova()` test can be performed.
+
 ```{r best model, echo=F, message=F}
 best.dat.lm <- lm(sum_oyster_units~(water_temp_Divergence),dat,na.action="na.fail")
 best.dat.aic <- anova(best.dat.lm)
@@ -95,6 +97,8 @@ best.dat.kb <- kable(best.dat.aic[1:4],caption="Statistical test for best model,
 kable_styling(best.dat.kb)
 
 ```
+
+Unfortunately, the `anova()` test of significance is inconclusive, as shown by the **NaN**. This is because there is one observation per divergence value, meaning that there are no residuals. 
 
 To answer the second question, average total nitrogen and total oyster units per year were compared in individual plots to first see if any patterns emerge at first glance.
 
