@@ -133,6 +133,16 @@ The `Anova()` test of the `nit.lm` model reveals a p-value of 0.252696, which ab
 
 Based on the `dredge()` nested model analysis, the best-fitting model was determined to only contain the divergence in average temperature from the twenty-six-year average, or `lm(sum_oyster_units~water_temp_Divergence)`. This suggests that higher yearly variation from an average  temperature, which means more temperature anomalies during the year, can impact the ability of the oysters to survive to maturity. This can include "colder colds" and "hotter hots", as either anomaly represents a change from the best conditions for oysters. This has important implications regarding climate change, as more erratic weather patterns encompassing both extremes are becoming more common as the climate of Earth changes.
 
+As for the relationship between oyster populations and total nitrogen content of the water, the `Anova()` test revealed a p-value of 0.252696, a value above the 0.05 significance threshold. Therefore, about 20% of the nitrogen content data cannot be explained by the oyster population data, indicating that the relationship is not statistically significant and the oyster population is not a significant factor. 
+
+## Limitations
+
+A major limitation in our analysis is the availability of oyster population data, as we were only able to find the population counts for a twenty-six-year period. With this limited range, it does not take a large number of outlying data points to influence the data and keep the models from fitting in a statistically significant way. Additionally, the data for these oysters ends at 2015, meaning that the last eight years are not included. The rate of climate change has been accelerating , so more drastic environmental changes and their effects on oysters would likely be seen if the timeline of the data included present day.
+
+## Next Steps
+
+If this research were to continue, it would be essential to have the most up-to-date oyster population information, as previously mentioned. Additionally, a great way to expand this project would be to examine the oyster populations across other regions to compare and contrasts how different areas are feeling the effects of climate change and declining populations. The project could be expanded further by looking at other species, either other oyster species or other aquatic species that are impacted by changing ocean conditions. If multiple oyster species were considered in the data set, we could see if certain species are put at a greater risk than others.
+
 # Author Contributions
 Audrey:
 
