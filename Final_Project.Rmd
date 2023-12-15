@@ -25,7 +25,9 @@ library(kableExtra)
 Eastern oysters (*Crassostrea virginica*) are a staple species of the Chesapeake Bay region, the area in the Mid-Atlantic United States separated by the Delmarva Peninsula (pictured below).
 
 ```{r regional map, echo=F, message=F,fig.dim=c(4,2)}
-plot_usmap(include=c("DE","NJ","MD","VA","PA"))
+coord <- data.frame(lon=38.6346, lat=76.3266)
+map.coord <- usmap_transform(coord)
+plot_usmap(include=c("DE","NJ","MD","VA","PA"),labels=TRUE)
 ```
 
 Oysters are a staple of aquatic regions such as this one, due to their cultural value, their contribution to the economy, and their role in environmental regulation.
