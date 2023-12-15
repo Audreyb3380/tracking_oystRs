@@ -43,6 +43,7 @@ The value of nitrogen regulation emanates from the unique ability of oysters to 
 ## Environmental Impacts
 Chesapeake Bay oysters face considerable challenges due to climate change and environmental variables like pH, salinity, water temperature, and nitrogen. The Bay, highly vulnerable to climate change, experiences rising seas, ocean acidification, warming water temperatures, and prolonged extreme weather, disrupting water quality, habitat, and wildlife.  Oyster shell growth requires a sustained deposition of calcium carbonate, however, this is less available in acidic conditions leading to low calcification rates.  Daily fluctuations in salinity have also been harmful to these oysters.  They rely on freshwater input to survive, and parasites that infect oysters prosper in both high-salinity and warm environments. Too high or low salinity levels also lead to a decrease in immunity.  Additionally, higher temperatures have led to waters being unable to hold as much dissolved oxygen (hypoxia).  This condition has led to severe oyster mortality, reproductive failure, and high susceptibility to parasites and disease.  These daily fluctuations of oxygen and acid have been intensified through the introduction of nitrogen and carbon dioxide from polluted air and runoff. 
 
+## Project Goal
 The goal of this analysis is to determine which varying environmental factors are most directly responsible for the growth and decline of oyster populations in the Chesapeake Bay region. Additional, we aim to see if there is a statistically significant relationship between oyster population counts and the total amount of nitrogen present in the water.
 
 # Methods
@@ -107,7 +108,7 @@ grid.arrange(plot1,plot2,plot3,plot4)
 
 Each environmental factor was plotted against the oyster counts per location to try and see any clear patterns before using model analysis.
 
-```{r modeling, echo=F, message=F}
+```{r modeling, echo=F, message=F, warning=F}
 dat.lmer <- lmer(oyster_units~salinity_Average*ph_Average*water_temp_Average*water_temp_Divergence+(1|location_name),dat,na.action="na.fail")
 
 dat %>% 
@@ -156,7 +157,7 @@ nit.kb <- kable(nit.an[1:4],caption="Statistical test for model predicting nitro
 kable_styling(nit.kb)
 ```
 
-The `Anova()` test of the `nit.lm` model reveals a p-value of 0.0173748, which above the 0.05 value of significance but still indicates a potential for correlation.
+The `Anova()` test of the `nit.lm` model reveals a p-value of 0.0173748, which is below the 0.05 value of significance and therefore indicates a statistically significant relationship.
 
 # Discussion
 
@@ -164,7 +165,7 @@ Based on the `dredge()` nested model analysis, the best-fitting model was determ
 
 This has important implications regarding climate change, as more erratic weather patterns encompassing both extremes are becoming more common as the climate of Earth changes.
 
-As for the relationship between oyster populations and total nitrogen content of the water, the `Anova()` test revealed a p-value of 0.0173748, a value slightly above the 0.05 significance threshold. Therefore, about 1.7% of the nitrogen content data cannot be explained by the oyster population data, so while the value is above the 0.05 threshold there is still likely a relationship between the two.
+As for the relationship between oyster populations and total nitrogen content of the water, the `Anova()` test revealed a p-value of 0.0173748, a value below the 0.05 significance threshold. About 1.7% of the nitrogen content data cannot be explained by the oyster population data, highlighting a strong correlation between the two. This aligns with previous studies on denitrification in oyster-populated areas, where areas with restored oyster habitats had increased rates of nitrogen removal compared to areas with bare sediment [@humphries2016directly]. Oysters play a crucial role in the regulation of aquatic ecosystems, which is why their importance cannot be understated. By restoring oyster ecosystems and placing a greater emphasis on regulating the population (finding a balance between the economic and environmental benefits of oysters), we can improve the quality of our water for other essential species and for ourselves.
 
 ## Limitations
 
