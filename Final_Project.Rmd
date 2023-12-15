@@ -118,7 +118,7 @@ dat %>%
   ggplot(aes(value,oyster_units,col=location_name)) +geom_point()+geom_smooth(aes(value,oyster_units),method="lm",inherit.aes = F)+facet_wrap(.~name,scales="free_x")
 ```
 
-To determine which of these environmental factors influence oyster population values, the most complicated linear model was run through the `dredge()` function to determine the best-fitting nested models within that complex model.
+To determine which of these environmental factors influence oyster population values, the `dredge()` function ran on the most complicated model to determine the best-fitting nested models and which variables/interactions are present in said model.
 
 ```{r dredge analysis, echo=F, message=F, warning=F}
 dat.aic <- dredge(dat.lmer)
@@ -129,7 +129,7 @@ kable_styling(dat.kb)
 
 The table above ranked the nested models based on how well they fit the data, with the best-fitting model at the top. Based on this analysis, the best-fitting model to explain oyster population numbers *is* the most complicated model, including all interactions. This is the model with the smallest AICc score and the highest weight. The model is as follows: `lmer(oyster_units~salinity_Average*ph_Average*water_temp_Average*water_temp_Divergence+(1|location_name)`.
 
-To see if this relationship is statistically significant, an `Anova()` test can be performed.
+To see if this relationship is statistically significant, an `Anova()` test was performed.
 
 ```{r best model, echo=F, message=F,fig.cap="Statistical test for best model, as determined by `dredge()`"}
 best.dat.aic <- car::Anova(dat.lmer)
