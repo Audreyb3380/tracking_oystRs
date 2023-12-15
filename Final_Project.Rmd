@@ -51,7 +51,7 @@ Data regarding oyster population was collected from the Choptank River, a Maryla
 
 The environmental data was accessed from the Maryland Department of Natural Resources, specifically their long-term fixed station monthly monitoring database. This data was collected at three Choptank River stations to match the oyster population data, and the yearly averages for each type of data were determined using Excel.
 
-A linear model predicting oyster population was developed using interactions between average pH, salinity, water temperature, and divergence in water temperature, creating the most complex model that could be analyzed with `dredge()` to find the best model.
+A linear mixed-effect model predicting oyster population was developed using interactions between average pH, salinity, water temperature, and divergence in water temperature, creating the most complex model that could be analyzed with `dredge()` to find the best model. With this model, the random effect of location along the Choptank was included. The best-fitting model was analyzed with `Anova()` to see which factors and interactions were statistically significant.
 
 To determine if there is a statistically significant relationship between oyster population and nitrogen content in the water, another linear model was developed and analyzed using `Anova()`.
 
@@ -119,7 +119,6 @@ To determine which of these environmental factors influence oyster population va
 
 ```{r dredge analysis, echo=F, message=F, warning=F}
 dat.aic <- dredge(dat.lmer)
-Anova(dat.lmer)
 
 dat.kb <- kable(dat.aic[1:4,],caption = "Fit values for nested models of the most complicated lm model")
 kable_styling(dat.kb)
@@ -129,9 +128,9 @@ The table above ranks the nested models based on how well they fit the data, wit
 
 To see if this relationship is statistically significant, an `Anova()` test can be performed.
 
-```{r best model, echo=F, message=F}
-best.dat.aic <- car::Anova(dat.lm)
-best.dat.kb <- kable(best.dat.aic[1:4],caption="Statistical test for best model, as determined by `dredge()`")
+```{r best model, echo=F, message=F,fig.cap="Statistical test for best model, as determined by `dredge()`"}
+best.dat.aic <- car::Anova(dat.lmer)
+best.dat.kb <- kable(best.dat.aic[1:15,],caption="Statistical test for best model, as determined by `dredge()`")
 kable_styling(best.dat.kb)
 ```
 
@@ -161,7 +160,9 @@ The `Anova()` test of the `nit.lm` model reveals a p-value of 0.0173748, which a
 
 # Discussion
 
-Based on the `dredge()` nested model analysis, the best-fitting model was determined to contain all of the environmental variables and interactions, or `lmer(oyster_units~salinity_Average*ph_Average*water_temp_Average*water_temp_Divergence+(1|location_name)`. While all factors were involved in the best model, the most statistically significant variable was divergence in water temperature with the lowest p-value. This suggests that higher yearly variation from an average  temperature, which means more temperature anomalies during the year, can impact the ability of the oysters to survive to maturity. This can include "colder colds" and "hotter hots", as either anomaly represents a change from the best conditions for oysters. This has important implications regarding climate change, as more erratic weather patterns encompassing both extremes are becoming more common as the climate of Earth changes.
+Based on the `dredge()` nested model analysis, the best-fitting model was determined to contain all of the environmental variables and interactions, or `lmer(oyster_units~salinity_Average*ph_Average*water_temp_Average*water_temp_Divergence+(1|location_name)`. While all factors were involved in the best model, the most statistically significant variable was divergence in water temperature with the lowest p-value. This suggests that higher yearly variation from an average  temperature, which means more temperature anomalies during the year, can impact the ability of the oysters to survive to maturity. Harmful variation can include "colder colds" and "hotter hots", as either anomaly represents a change from the best conditions for oysters. This aligns with previous water temperature research, which discovered that some oyster species function best between 28°C and 32°C, specifically during development [@muhammad2020influence]. If the proper temperature conditions are not met in embryonic and larval development, the oysters will not survive long enough to reach this sexually mature market-sized state. 
+
+This has important implications regarding climate change, as more erratic weather patterns encompassing both extremes are becoming more common as the climate of Earth changes.
 
 As for the relationship between oyster populations and total nitrogen content of the water, the `Anova()` test revealed a p-value of 0.0173748, a value slightly above the 0.05 significance threshold. Therefore, about 1.7% of the nitrogen content data cannot be explained by the oyster population data, so while the value is above the 0.05 threshold there is still likely a relationship between the two.
 
@@ -174,6 +175,7 @@ A major limitation in our analysis is the availability of oyster population data
 If this research were to continue, it would be essential to have the most up-to-date oyster population information, as previously mentioned. Additionally, a great way to expand this project would be to examine the oyster populations across other regions to compare and contrasts how different areas are feeling the effects of climate change and declining populations. The project could be expanded further by looking at other species, either other oyster species or other aquatic species that are impacted by changing ocean conditions. If multiple oyster species were considered in the data set, we could see if certain species are put at a greater risk than others.
 
 # Author Contributions
+
 Audrey:
 
 Conor:
