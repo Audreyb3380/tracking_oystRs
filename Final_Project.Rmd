@@ -96,7 +96,7 @@ dat <- environ %>%
 
 ```
 
-To make a prediction about the impact of each environmental factor, the average salinity, pH, nitrogen, water temperature, and divergence in water temperature from the average are plotted individually from 1989 to 2015. This yearly range was selected to align with the years with available oyster data.
+To make a prediction about the impact of each environmental factor, the average salinity, pH, nitrogen, water temperature, and divergence in water temperature from the average were plotted individually from 1989 to 2015. This yearly range was selected to align with the years with available oyster data.
 
 ```{r plotting joined data, echo=F, message=F}
 
@@ -118,7 +118,7 @@ dat %>%
   ggplot(aes(value,oyster_units,col=location_name)) +geom_point()+geom_smooth(aes(value,oyster_units),method="lm",inherit.aes = F)+facet_wrap(.~name,scales="free_x")
 ```
 
-To determine which of these environmental factors influence oyster population values, the most complicated linear model is run through the `dredge()` function to determine the best-fitting nested models within that complex model.
+To determine which of these environmental factors influence oyster population values, the most complicated linear model was run through the `dredge()` function to determine the best-fitting nested models within that complex model.
 
 ```{r dredge analysis, echo=F, message=F, warning=F}
 dat.aic <- dredge(dat.lmer)
@@ -127,7 +127,7 @@ dat.kb <- kable(dat.aic[1:4,],caption = "Fit values for nested models of the mos
 kable_styling(dat.kb)
 ```
 
-The table above ranks the nested models based on how well they fit the data, with the best-fitting model at the top. Based on this analysis, the best-fitting model to explain oyster population numbers *is* the most complicated model, including all interactions. This is the model with the smallest AICc score and the highest weight. The model is as follows: `lmer(oyster_units~salinity_Average*ph_Average*water_temp_Average*water_temp_Divergence+(1|location_name)`.
+The table above ranked the nested models based on how well they fit the data, with the best-fitting model at the top. Based on this analysis, the best-fitting model to explain oyster population numbers *is* the most complicated model, including all interactions. This is the model with the smallest AICc score and the highest weight. The model is as follows: `lmer(oyster_units~salinity_Average*ph_Average*water_temp_Average*water_temp_Divergence+(1|location_name)`.
 
 To see if this relationship is statistically significant, an `Anova()` test can be performed.
 
@@ -137,7 +137,7 @@ best.dat.kb <- kable(best.dat.aic[1:15,],caption="Statistical test for best mode
 kable_styling(best.dat.kb)
 ```
 
-The `Anova()` test reveals that many of the components of the model have a statistically significant relationship with the oyster population data, as they have a small p-value that is less than 0.05. The following are all considered statistically significant by this measure: average salinity, average water temperature, divergence in average water temperature. As for interactions between these variables, the following are all significant based on p-value: salinity and water temperature, salinity and divergence in water temperature, salinity with pH and divergence in water temperature, and pH with water temperature and divergence in water temperature. The most significant factor with the lowest p-value is divergence in water temperature, which has a value of 7.064e-09.
+The `Anova()` test revealed that many of the components of the model have a statistically significant relationship with the oyster population data, as they have a small p-value that is less than 0.05. The following are all considered statistically significant by this measure: average salinity, average water temperature, divergence in average water temperature. As for interactions between these variables, the following are all significant based on p-value: salinity and water temperature, salinity and divergence in water temperature, salinity with pH and divergence in water temperature, and pH with water temperature and divergence in water temperature. The most significant factor with the lowest p-value was divergence in water temperature, which has a value of 7.064e-09.
 
 ## Relationship with Nitrogen
 
@@ -159,11 +159,11 @@ nit.kb <- kable(nit.an[1:4],caption="Statistical test for model predicting nitro
 kable_styling(nit.kb)
 ```
 
-The `Anova()` test of the `nit.lm` model reveals a p-value of 0.0173748, which is below the 0.05 value of significance and therefore indicates a statistically significant relationship.
+The `Anova()` test of the `nit.lm` model revealed a p-value of 0.0173748, which is below the 0.05 value of significance and therefore indicates a statistically significant relationship.
 
 # Discussion
 
-Based on the `dredge()` nested model analysis, the best-fitting model was determined to contain all of the environmental variables and interactions, or `lmer(oyster_units~salinity_Average*ph_Average*water_temp_Average*water_temp_Divergence+(1|location_name)`. While all factors were involved in the best model, the most statistically significant variable was divergence in water temperature with the lowest p-value. This suggests that higher yearly variation from an average  temperature, which means more temperature anomalies during the year, can impact the ability of the oysters to survive to maturity. Harmful variation can include "colder colds" and "hotter hots", as either anomaly represents a change from the best conditions for oysters. This aligns with previous water temperature research, which discovered that some oyster species function best between 28°C and 32°C, specifically during development [@muhammad2020influence]. If the proper temperature conditions are not met in embryonic and larval development, the oysters will not survive long enough to reach this sexually mature market-sized state. 
+Based on the `dredge()` nested model analysis, the best-fitting model contains all of the environmental variables and interactions, or `lmer(oyster_units~salinity_Average*ph_Average*water_temp_Average*water_temp_Divergence+(1|location_name)`. While all factors were involved in the best model, divergence in water temperature was the most statistically significant variable with the lowest p-value. This suggests that higher yearly variation from an average  temperature, which means more temperature anomalies during the year, can impact the ability of the oysters to survive to maturity. Harmful variation can include "colder colds" and "hotter hots", as either anomaly represents a change from the best conditions for oysters. This aligns with previous water temperature research, which discovered that some oyster species function best between 28°C and 32°C, specifically during development [@muhammad2020influence]. If the proper temperature conditions are not met in embryonic and larval development, the oysters will not survive long enough to reach this sexually mature market-sized state. 
 
 This has important implications regarding climate change, as more erratic weather patterns encompassing both extremes are becoming more common as the climate of Earth changes.
 
