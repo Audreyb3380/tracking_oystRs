@@ -56,11 +56,16 @@ A linear model predicting oyster population was developed using interactions bet
 To determine if there is a statistically significant relationship between oyster population and nitrogen content in the water, another linear model was developed and analyzed using `Anova()`.
 
 # Results
-```{r environment data, echo=F, message=F}
-temp_data <- read_csv("water_temp_data.csv")
-ph_data <- read_csv("ph_data.csv")
-sal_data <- read_csv("salinity_data.csv")
-nit_data <- read_csv("nitrogen_data.csv")
+
+## Environmental Factors
+```{r environment data, echo=F, message=F,warning=F}
+temp_data <- read_csv("water_temp_data.csv") %>% 
+  mutate(water_temp_Divergence=water_temp_Divergence %>% as.character %>% as.numeric()) %>%
+  na.omit
+
+ph_data <- read_csv("ph_data.csv")%>%na.omit
+sal_data <- read_csv("salinity_data.csv")%>%na.omit
+nit_data <- read_csv("nitrogen_data.csv")%>%na.omit
 ```
 
 The data collected along the Choptank River varies depending on the location, but a few trends in oyster population across all locations can clearly be seen.
@@ -84,7 +89,7 @@ environ <- merge(x=sal_data,y=ph_data,by="Year",all.x=TRUE)%>%
   left_join(temp_data,by="Year")%>%
   left_join(nit_data,by="Year")
 dat <- environ %>%
-  left_join(by_year_oys,by="Year")
+  left_join(oys_data,by="Year")
 
 ```
 
@@ -100,54 +105,65 @@ plot4 <- ggplot(environ,aes(x=Year,y=water_temp_Divergence))+geom_point()
 grid.arrange(plot1,plot2,plot3,plot4)
 ```
 
-To determine which of these environmental factors influence oyster population values, the most complicated linear model is run through the `dregde()` function to determine the best-fitting nested models within that complex model.
+Each environmental factor was plotted against the oyster counts per location to try and see any clear patterns before using model analysis.
 
-```{r modeling with dredge, echo=F, message=F}
-dat.lm <- lm(sum_oyster_units~salinity_Average*ph_Average*water_temp_Average*water_temp_Divergence,dat,na.action="na.fail")
+```{r modeling, echo=F, message=F}
+dat.lmer <- lmer(oyster_units~salinity_Average*ph_Average*water_temp_Average*water_temp_Divergence+(1|location_name),dat,na.action="na.fail")
 
-dat.aic <- dredge(dat.lm)
+dat %>% 
+  pivot_longer(salinity_Average:nitrogen_Average) %>% 
+  ggplot(aes(value,oyster_units,col=location_name)) +geom_point()+geom_smooth(aes(value,oyster_units),method="lm",inherit.aes = F)+facet_wrap(.~name,scales="free_x")
+```
+
+To determine which of these environmental factors influence oyster population values, the most complicated linear model is run through the `dredge()` function to determine the best-fitting nested models within that complex model.
+
+```{r dredge analysis, echo=F, message=F, warning=F}
+dat.aic <- dredge(dat.lmer)
+Anova(dat.lmer)
 
 dat.kb <- kable(dat.aic[1:4,],caption = "Fit values for nested models of the most complicated lm model")
 kable_styling(dat.kb)
 ```
 
-The table above ranks the nested models based on how well they fit the data, with the best-fitting model at the top. Based on this analysis, the best-fitting model to explain oyster population numbers only contains the divergence in average temperature from the average yearly temperature over this twenty-six-year period. To see if this relationship is statistically significant, an `anova()` test can be performed.
+The table above ranks the nested models based on how well they fit the data, with the best-fitting model at the top. Based on this analysis, the best-fitting model to explain oyster population numbers *is* the most complicated model, including all interactions. This is the model with the smallest AICc score and the highest weight. The model is as follows: `lmer(oyster_units~salinity_Average*ph_Average*water_temp_Average*water_temp_Divergence+(1|location_name)`.
+
+To see if this relationship is statistically significant, an `Anova()` test can be performed.
 
 ```{r best model, echo=F, message=F}
-best.dat.lm <- lm(sum_oyster_units~(water_temp_Divergence),dat,na.action="na.fail")
-best.dat.aic <- anova(best.dat.lm)
+best.dat.aic <- car::Anova(dat.lm)
 best.dat.kb <- kable(best.dat.aic[1:4],caption="Statistical test for best model, as determined by `dredge()`")
 kable_styling(best.dat.kb)
-
 ```
 
-Unfortunately, the `anova()` test of significance is inconclusive, as shown by the **NaN**. This is because there is one observation per divergence value, meaning that there are no residuals. 
+The `Anova()` test reveals that many of the components of the model have a statistically significant relationship with the oyster population data, as they have a small p-value that is less than 0.05. The following are all considered statistically significant by this measure: average salinity, average water temperature, divergence in average water temperature. As for interactions between these variables, the following are all significant based on p-value: salinity and water temperature, salinity and divergence in water temperature, salinity with pH and divergence in water temperature, and pH with water temperature and divergence in water temperature. The most significant factor with the lowest p-value is divergence in water temperature, which has a value of 7.064e-09.
+
+## Relationship with Nitrogen
 
 To answer the second question, average total nitrogen and total oyster units per year were compared in individual plots to first see if any patterns emerge at first glance.
 
 ```{r nitrogen plots, echo=F, message=F,fig.cap="Average nitrogen content and oyster population plotted between 1989 and 2015"}
 nitro.plot <- ggplot(dat,aes(x=Year,y=nitrogen_Average))+geom_point()
-oys.plot <- ggplot(dat,aes(x=Year,y=sum_oyster_units))+geom_point()
+oys.plot <- ggplot(by_year_oys,aes(x=Year,y=sum_oyster_units))+geom_point()
 grid.arrange(oys.plot,nitro.plot)
 ```
 
 Looking at the initial patterns of the graph, barring a handful of outliers, it seems that the oyster population and the amount of nitrogen present in the water have an inverse relationship. Instances of this pattern can be seen between 1992 and 1994 and between 2003 and 2004, where some of the lowest oyster counts match with some of the highest nitrogen content. Now comes the big question: is this relationship statistically significant, or is this seemingly-related variance more likely due to chance?
 
 ```{r nitrogen model, echo=F, message=F}
-nit.lm <- lm(nitrogen_Average~sum_oyster_units,dat,na.action="na.fail")
+nit.lm <- lm(nitrogen_Average~oyster_units,dat,na.action="na.fail")
 
 nit.an <- Anova(nit.lm)
 nit.kb <- kable(nit.an[1:4],caption="Statistical test for model predicting nitrogen content based on oyster population")
 kable_styling(nit.kb)
 ```
 
-The `Anova()` test of the `nit.lm` model reveals a p-value of 0.252696, which above the 0.05 value of significance.
+The `Anova()` test of the `nit.lm` model reveals a p-value of 0.0173748, which above the 0.05 value of significance but still indicates a potential for correlation.
 
 # Discussion
 
-Based on the `dredge()` nested model analysis, the best-fitting model was determined to only contain the divergence in average temperature from the twenty-six-year average, or `lm(sum_oyster_units~water_temp_Divergence)`. This suggests that higher yearly variation from an average  temperature, which means more temperature anomalies during the year, can impact the ability of the oysters to survive to maturity. This can include "colder colds" and "hotter hots", as either anomaly represents a change from the best conditions for oysters. This has important implications regarding climate change, as more erratic weather patterns encompassing both extremes are becoming more common as the climate of Earth changes.
+Based on the `dredge()` nested model analysis, the best-fitting model was determined to contain all of the environmental variables and interactions, or `lmer(oyster_units~salinity_Average*ph_Average*water_temp_Average*water_temp_Divergence+(1|location_name)`. While all factors were involved in the best model, the most statistically significant variable was divergence in water temperature with the lowest p-value. This suggests that higher yearly variation from an average  temperature, which means more temperature anomalies during the year, can impact the ability of the oysters to survive to maturity. This can include "colder colds" and "hotter hots", as either anomaly represents a change from the best conditions for oysters. This has important implications regarding climate change, as more erratic weather patterns encompassing both extremes are becoming more common as the climate of Earth changes.
 
-As for the relationship between oyster populations and total nitrogen content of the water, the `Anova()` test revealed a p-value of 0.252696, a value above the 0.05 significance threshold. Therefore, about 25% of the nitrogen content data cannot be explained by the oyster population data, indicating that the relationship is not statistically significant and the oyster population is not a significant factor. 
+As for the relationship between oyster populations and total nitrogen content of the water, the `Anova()` test revealed a p-value of 0.0173748, a value slightly above the 0.05 significance threshold. Therefore, about 1.7% of the nitrogen content data cannot be explained by the oyster population data, so while the value is above the 0.05 threshold there is still likely a relationship between the two.
 
 ## Limitations
 
